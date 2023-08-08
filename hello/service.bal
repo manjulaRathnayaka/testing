@@ -1,17 +1,22 @@
 import ballerina/http;
+import ballerina/lang.runtime;
+import ballerina/io;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service / on new http:Listener(9090) {
-
-    # A resource for generating greetings
-    # + name - the input string name
-    # + return - string name with hello message or error
-    resource function get greeting(string name) returns string|error {
-        // Send a response back to the caller.
-        if name is "" {
-            return error("name should not be empty!");
-        }
-        return "Hello, " + name;
+public function main() {
+    while true {
+         dnsCheck("http://www.google.com");
+    dnsCheck("https://play.ballerina.io");
+    dnsCheck("https://periscope.choreo.dev");
+    runtime:sleep(2);
     }
+   
+}
+
+public function dnsCheck(string url) {
+    do {
+	     http:Client foo = check new(url);
+        http:Response _ = check foo->/;
+     } on fail var e {
+     	io:println(e);
+     }
 }
